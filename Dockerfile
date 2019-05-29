@@ -86,11 +86,11 @@ LABEL org.opencontainers.image.url="https://hub.docker.com/r/rexypoo/megacmd" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.description="MEGAcmd on Docker" \
       org.opencontainers.image.title="rexypoo/megacmd" \
-      org.label-schema.docker.cmd='mkdir -p "$HOME"/.mega-settings && \
+      org.label-schema.docker.cmd='mkdir -p "$HOME"/MEGA && \
       docker run -d \
       --name megacmd \
       --restart unless-stopped \
-      -v "$HOME"/MEGA:/mega \
+      --volume "$HOME"/MEGA:/mega \
       rexypoo/megacmd' \
       org.label-schema.docker.cmd.devel="docker run -it --rm --entrypoint bash rexypoo/megacmd" \
       org.label-schema.docker.cmd.debug="docker exec -it --user mega megacmd bash"
