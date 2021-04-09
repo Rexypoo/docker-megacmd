@@ -2,7 +2,7 @@ FROM ubuntu AS build
 WORKDIR /build/tmp
 
 # Install prerequisites
-RUN DEBIAN_FRONTEND="noninteractive" apt-get update && apt-get install -yq \
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -yq \
     autoconf \
     g++ \
     git \
