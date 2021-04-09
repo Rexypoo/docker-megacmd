@@ -38,7 +38,7 @@ ENTRYPOINT ["mega-cmd-server"]
 
 FROM ubuntu AS clean
 COPY --from=build /usr/local /usr/local
-RUN apt-get update && apt-get install -yq \
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -yq \
     libavcodec-dev \
     libavformat-dev \
     libavutil-dev \
