@@ -1,4 +1,5 @@
-FROM ubuntu AS build
+ARG ARCH=
+FROM ${ARCH}ubuntu AS build
 WORKDIR /build/tmp
 
 # Install prerequisites
@@ -28,15 +29,20 @@ RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -yq \
  && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/meganz/MEGAcmd.git . \
- && git submodule update --init --recursive \
- && sh autogen.sh \
+ && git submodule update --init --recursive
+
+# Patch libfreeimage
+RUN sed -i 's/AVCodec* decoder = avcodec_find_decoder(codecId);/auto decoder = avcodec_find_decoder(codecId);/' "./sdk/src/gfx/freeimage.cpp"
+RUN sed -i 's/videoStream->skip_to_keyframe = true;//' "./sdk/src/gfx/freeimage.cpp"
+
+RUN sh autogen.sh \
  && ./configure \
  && make \
  && make install
 
 ENTRYPOINT ["mega-cmd-server"]
 
-FROM ubuntu AS clean
+FROM ${ARCH}ubuntu AS clean
 COPY --from=build /usr/local /usr/local
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -yq \
     libavcodec-dev \
