@@ -80,7 +80,12 @@ RUN adduser \
     "$USER" \
  && chown $USER:$USER .
 
-ADD https://raw.githubusercontent.com/Rexypoo/docker-entrypoint-helper/master/entrypoint-helper.sh /usr/local/bin/entrypoint-helper.sh
+# Attempt to patch /etc/machine-id if needed
+RUN if [ ! -s /etc/machine-id ]; then \
+      echo megacmd > /etc/machine-id; \
+    fi
+
+ADD entrypoint-helper.sh /usr/local/bin/entrypoint-helper.sh
 RUN chmod u+x /usr/local/bin/entrypoint-helper.sh
 ENTRYPOINT ["entrypoint-helper.sh","mega-cmd-server"]
 
