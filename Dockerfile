@@ -85,7 +85,7 @@ RUN if [ ! -s /etc/machine-id ]; then \
       echo megacmd > /etc/machine-id; \
     fi
 
-ADD entrypoint-helper.sh /usr/local/bin/entrypoint-helper.sh
+ADD https://raw.githubusercontent.com/Rexypoo/docker-entrypoint-helper/master/entrypoint-helper.sh /usr/local/bin/entrypoint-helper.sh
 RUN chmod u+x /usr/local/bin/entrypoint-helper.sh
 ENTRYPOINT ["entrypoint-helper.sh","mega-cmd-server"]
 
